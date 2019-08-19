@@ -2,11 +2,11 @@ import React from 'react';
 import styles from './InputTodo.scss';
 import classNames from 'classnames/bind';
 
-const cx = className.bind(styles);
+const cx = classNames.bind(styles);
 
 const InputTodo = ({value, onChange, onInsert}) => {
     const handleKeyPress = (e) => {
-        if(e.key == 'Enter') {
+        if(e.key === 'Enter') {
             onInsert();
         }
     };
