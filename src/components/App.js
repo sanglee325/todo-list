@@ -3,6 +3,10 @@ import PageTemplate from './PageTemplate';
 import InputTodo from './InputTodo';
 import TodoList from './TodoList';
 
+const initialTodos = new Array(5000).fill(0).map(
+    (foo, index) => ({id: index, text: `일정${index}`, done: false})
+  );
+  
 class App extends Component {
     state = {
         input: '',
@@ -11,6 +15,26 @@ class App extends Component {
             { id:1, text: '두번째 일정입니다.', done: false},
         ]
     }
+
+    toggleHandler = (id) => {
+        const { todos } = this.state;
+        const index = todos.findIndex(todo => todo.id === id);
+
+        const toggled = {
+            ...todos[index],
+            done: !todos[index].done
+        };
+
+        const newTodos = [
+            ...todos.slice(0, index),
+            toggled,
+            ...todos.slice(index+1, todos.length)
+        ];
+
+        this.setState({
+            todos: newTodos
+        })
+    };
 
     onChangeHandler = (e) => {
         const { value } = e.target;
@@ -41,15 +65,34 @@ class App extends Component {
         }
     }
 
+    dataRemoveHandler = (id) => {
+        const { todos } = this.state;
+        const index = todos.findIndex(todo => todo.id === id);
+
+        const newTodos = [
+            ...todos.slice(0, index),
+            ...todos.slice(index+1, todos.length)
+        ];
+
+        this.setState({
+            todos: newTodos
+        })
+    };
+
     render() {
         const { input, todos } = this.state;
-        const { onChangeHandler, dataInsertHandler } = this;
+        const {
+            onChangeHandler,
+            dataInsertHandler,
+            dataRemoveHandler,
+            toggleHandler,
+        } = this;
 
         return (
-          <PageTemplate>
-              <InputTodo onChange={onChangeHandler} value={input} onInsert={dataInsertHandler}/>
-              <TodoList todos={todos}/>
-          </PageTemplate>
+            <PageTemplate>
+                <InputTodo onChange={onChangeHandler} value={input} onInsert={dataInsertHandler}/>
+                <TodoList todos={todos} onToggle={toggleHandler} onRemove={dataRemoveHandler}/>
+            </PageTemplate>
         );
     }
 }

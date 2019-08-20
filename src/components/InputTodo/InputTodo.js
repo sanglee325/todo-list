@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
-const InputTodo = ({value, onChange, onInsert}) => {
+const InputTodo = ({ value, onChange, onInsert }) => {
     const handleKeyPress = (e) => {
         if(e.key === 'Enter') {
             onInsert();
@@ -13,8 +13,8 @@ const InputTodo = ({value, onChange, onInsert}) => {
 
     return (
         <div className={cx('todo-input')}>
-            <input onChange={onChange} value={value} onKeyPress={handleKeyPress}/>
-            <div className={cx('add-button')} onClick={onInsert}>추가</div>
+            <input onChange={ onChange } value={ value } onKeyPress={ handleKeyPress }/>
+            <div className={cx('add-button')} onClick={ onInsert }>추가</div>
         </div>
     )
 };
